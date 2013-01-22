@@ -7,6 +7,7 @@ module DnsChecker
   def check_domain(domain)
     return if domain["domain"].match /.*.heroku(app).com/
     return if domain["domain"][0] == "*"
+    styled_header("Checking #{domain}...")
     res = Net::HTTP.get_response check_url(domain)
     parse_results JSON.parse(res.body)
   end
@@ -16,7 +17,13 @@ module DnsChecker
   end
 
   def parse_results(data)
-    raise data.inspect
+    if data["state"] == "green"
+      display("OK")
+    elsif data["state"] == "amber"
+      display(data["comments"])
+    else
+      display("WARNING: #{data["comments"]}")
+    end
   end
 
 end

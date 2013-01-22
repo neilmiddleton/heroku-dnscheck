@@ -16,20 +16,7 @@ module DnsChecker
   end
 
   def parse_results(data)
-    if data["unknown"]
-      display "#{data["domain"]}: Domain data could not be found"
-    else
-      if data["type"] == 'CNAME'
-        display "#{data["domain"]}: Appears to be setup correctly"
-      else
-        if data["alias"]
-          display "#{data["domain"]}: Appears to be setup correctly"
-        else
-          display "#{data["domain"]}: Appears to be an A record.  Please
-            see https://devcenter.heroku.com/articles/dns for more information"
-        end
-      end
-    end
+    raise data.inspect
   end
 
 end
